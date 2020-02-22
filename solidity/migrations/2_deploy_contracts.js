@@ -23,7 +23,7 @@ const BancorConverterUpgrader = artifacts.require('BancorConverterUpgrader');
 const BancorConverterRegistry = artifacts.require('BancorConverterRegistry');
 const CrowdsaleController = artifacts.require('CrowdsaleController');
 
-module.exports = function(deployer, network, accounts) {
+module.exports = async function(deployer, network, accounts) {
     if (network == "production") {
         deployer.deploy(Utils);
         deployer.deploy(Owned);
@@ -31,10 +31,10 @@ module.exports = function(deployer, network, accounts) {
         deployer.deploy(TokenHolder);
         deployer.deploy(ERC20Token, 'DummyToken', 'DUM', 0);
         deployer.deploy(EtherToken);
-        deployer.deploy(ContractRegistry);
+        await deployer.deploy(ContractRegistry);
         deployer.deploy(ContractFeatures);
         deployer.deploy(Whitelist);
-        deployer.deploy(SmartToken, 'Token1', 'TKN1', 2);
+        await deployer.deploy(SmartToken, 'Token1', 'TKN1', 2)
         deployer.deploy(SmartTokenController, SmartToken.address);
         deployer.deploy(BancorFormula);
         deployer.deploy(BancorGasPriceLimit, '22000000000');
