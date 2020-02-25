@@ -14,6 +14,7 @@ const ContractRegistry = artifacts.require('ContractRegistry');
 const ContractFeatures = artifacts.require('ContractFeatures');
 const Whitelist = artifacts.require('Whitelist');
 const SmartToken = artifacts.require('SmartToken');
+const SmartTokenTwo = artifacts.require('SmartToken');
 const SmartTokenController = artifacts.require('SmartTokenController');
 const BancorNetwork = artifacts.require('BancorNetwork');
 const BancorX = artifacts.require('BancorX');
@@ -29,11 +30,13 @@ const CrowdsaleController = artifacts.require('CrowdsaleController');
 // sequence https://github.com/trufflesuite/truffle/issues/501
 //
 module.exports = function(deployer, network, accounts) {
+	console.log(accounts);
 	if (network == "production") {
 		deployer.then(async() => {
 			await deployer.deploy(ContractRegistry);
 			await deployer.link(ContractRegistry, [SmartToken, BancorNetwork, BancorConverter, BancorConverterUpgrader]);
-			await deployer.deploy(SmartToken, 'Token1', 'TKN1', 2)
+			let r = await deployer.deploy(SmartToken, 'Token1', 'TKN1', 2)
+			console.log("one", r.address);	
 			await deployer.link(SmartToken, [SmartTokenController, BancorConverter, CrowdsaleController]);
 			await deployer.deploy(Utils);
 			await deployer.deploy(Owned);
@@ -44,11 +47,11 @@ module.exports = function(deployer, network, accounts) {
 			await deployer.link(EtherToken, [BancorConverter]);
 			await deployer.deploy(ContractFeatures);
 			await deployer.deploy(Whitelist);
-			await deployer.deploy(SmartTokenController, SmartToken.address);
+			await deployer.deploy(SmartTokenController, SmartToken.address)
 			await deployer.deploy(BancorFormula);
 			await deployer.deploy(BancorGasPriceLimit, '22000000000');
 			await deployer.deploy(BancorNetwork, ContractRegistry.address);
-			await deployer.deploy(BancorConverter, SmartToken.address, ContractRegistry.address, 0, EtherToken.address, 25);
+			await deployer.deploy(BancorConverter, SmartToken.address, ContractRegistry.address, 0, EtherToken.address, 250000);
 
 			await deployer.deploy(BancorConverterFactory);
 			await deployer.deploy(BancorConverterUpgrader, ContractRegistry.address);
