@@ -70,7 +70,7 @@ contract ContractRegistry is IContractRegistry, Owned, Utils, ContractIds {
         ownerOnly
         validAddress(_contractAddress)
     {
-        require(_contractName.length > 0); // validate input
+        require(_contractName.length > 0, '4912ba'); // validate input
 
         if (items[_contractName].contractAddress == address(0)) {
             // add the contract name to the name list
@@ -92,8 +92,8 @@ contract ContractRegistry is IContractRegistry, Owned, Utils, ContractIds {
         @param _contractName contract name
     */
     function unregisterAddress(bytes32 _contractName) public ownerOnly {
-        require(_contractName.length > 0); // validate input
-        require(items[_contractName].contractAddress != address(0));
+        require(_contractName.length > 0, 'c16c88'); // validate input
+        require(items[_contractName].contractAddress != address(0), 'c7aa79');
 
         // remove the address from the registry
         items[_contractName].contractAddress = address(0);

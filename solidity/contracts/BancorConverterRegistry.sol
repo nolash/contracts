@@ -102,7 +102,7 @@ contract BancorConverterRegistry is Owned, Utils {
         validAddress(_token)
         validAddress(_converter)
     {
-        require(convertersToTokens[_converter] == address(0));
+        require(convertersToTokens[_converter] == address(0), '13f974');
 
         // add the token to the list of tokens
         if (!tokensRegistered[_token]) {
@@ -130,7 +130,7 @@ contract BancorConverterRegistry is Owned, Utils {
         ownerOnly
         validAddress(_token)
     {
-        require(_index < tokensToConverters[_token].length);
+        require(_index < tokensToConverters[_token].length, '94aebc');
 
         address converter = tokensToConverters[_token][_index];
 

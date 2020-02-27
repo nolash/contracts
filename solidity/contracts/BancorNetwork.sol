@@ -48,7 +48,7 @@ contract BancorNetwork is IBancorNetwork, TokenHolder, ContractIds, FeatureIds {
 
     // validates a conversion path - verifies that the number of elements is odd and that maximum number of 'hops' is 10
     modifier validConversionPath(IERC20Token[] _path) {
-        require(_path.length > 2 && _path.length <= (1 + 2 * 10) && _path.length % 2 == 1);
+        require(_path.length > 2 && _path.length <= (1 + 2 * 10) && _path.length % 2 == 1, '739998');
         _;
     }
 
@@ -110,7 +110,7 @@ contract BancorNetwork is IBancorNetwork, TokenHolder, ContractIds, FeatureIds {
         // checking that it is the first conversion with the given signature
         // and that the current block number doesn't exceeded the maximum block
         // number that's allowed with the current signature
-        require(!conversionHashes[hash] && block.number <= _block);
+        require(!conversionHashes[hash] && block.number <= _block, 'ad1bbf');
 
         // recovering the signing address and comparing it to the trusted signer
         // address that was set in the contract
@@ -148,10 +148,10 @@ contract BancorNetwork is IBancorNetwork, TokenHolder, ContractIds, FeatureIds {
     {
         // if ETH is provided, ensure that the amount is identical to _amount and verify that the source token is an ether token
         IERC20Token fromToken = _path[0];
-        require(msg.value == 0 || (_amount == msg.value && etherTokens[fromToken]));
+        require(msg.value == 0 || (_amount == msg.value && etherTokens[fromToken]), '5ccb06');
 
         // require that the dest token is BNT
-        require(_path[_path.length - 1] == registry.addressOf(ContractIds.BNT_TOKEN));
+        require(_path[_path.length - 1] == registry.addressOf(ContractIds.BNT_TOKEN), '518cbb');
 
         // if ETH was sent with the call, the source is an ether token - deposit the ETH in it
         // otherwise, we claim the tokens from the sender
@@ -166,7 +166,7 @@ contract BancorNetwork is IBancorNetwork, TokenHolder, ContractIds, FeatureIds {
             IBancorGasPriceLimit gasPriceLimit = IBancorGasPriceLimit(registry.addressOf(ContractIds.BANCOR_GAS_PRICE_LIMIT));
             gasPriceLimit.validateGasPrice(tx.gasprice);
         } else {
-            require(verifyTrustedSender(_path, _amount, _block, msg.sender, _v, _r, _s));
+            require(verifyTrustedSender(_path, _amount, _block, msg.sender, _v, _r, _s), 'e16a64');
         }
     }
 
@@ -223,7 +223,7 @@ contract BancorNetwork is IBancorNetwork, TokenHolder, ContractIds, FeatureIds {
     {
         // if ETH is provided, ensure that the amount is identical to _amount and verify that the source token is an ether token
         IERC20Token fromToken = _path[0];
-        require(msg.value == 0 || (_amount == msg.value && etherTokens[fromToken]));
+        require(msg.value == 0 || (_amount == msg.value && etherTokens[fromToken]), 'bbdde5');
 
         // if ETH was sent with the call, the source is an ether token - deposit the ETH in it
         // otherwise, we assume we already have the tokens
@@ -345,17 +345,19 @@ contract BancorNetwork is IBancorNetwork, TokenHolder, ContractIds, FeatureIds {
     {
         if (_v == 0x0 && _r == 0x0 && _s == 0x0) {
             IBancorGasPriceLimit gasPriceLimit = IBancorGasPriceLimit(registry.addressOf(ContractIds.BANCOR_GAS_PRICE_LIMIT));
+	    require(registry.addressOf(ContractIds.BANCOR_GAS_PRICE_LIMIT) != address(0), 'fooo');
+	    require(tx.gasprice > 0, 'barar');
+	    require(gasPriceLimit.gasPrice() > 0, 'bazbaz');
             gasPriceLimit.validateGasPrice(tx.gasprice);
         }
         else {
-            require(verifyTrustedSender(_path, _customVal, _block, _for, _v, _r, _s));
+            require(verifyTrustedSender(_path, _customVal, _block, _for, _v, _r, _s), '8834ed');
         }
 
         // if ETH is provided, ensure that the amount is identical to _amount and verify that the source token is an ether token
         IERC20Token fromToken = _path[0];
 
         IERC20Token toToken;
-        
         (toToken, _amount) = convertByPath(_path, _amount, _minReturn, fromToken, _for);
 
         // finished the conversion, transfer the funds to the target account
@@ -473,7 +475,7 @@ contract BancorNetwork is IBancorNetwork, TokenHolder, ContractIds, FeatureIds {
                 supply = smartToken == prevSmartToken ? supply : smartToken.totalSupply();
 
                 // validate input
-                require(getConnectorSaleEnabled(converter, fromToken));
+                require(getConnectorSaleEnabled(converter, fromToken), 'e2dd14');
 
                 // calculate the amount & the conversion fee
                 balance = converter.getConnectorBalance(fromToken);
@@ -531,7 +533,7 @@ contract BancorNetwork is IBancorNetwork, TokenHolder, ContractIds, FeatureIds {
             return;
 
         // check if the account that should receive the conversion result is actually whitelisted
-        require(whitelist.isWhitelisted(_for));
+        require(whitelist.isWhitelisted(_for), '4a8f8b');
     }
 
     /**

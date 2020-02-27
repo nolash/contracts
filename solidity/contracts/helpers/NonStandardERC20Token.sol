@@ -29,7 +29,7 @@ contract NonStandardERC20Token is INonStandardERC20, Utils {
         @param _decimals    decimal points, for display purposes
     */
     constructor(string _name, string _symbol, uint8 _decimals) public {
-        require(bytes(_name).length > 0 && bytes(_symbol).length > 0); // validate input
+        require(bytes(_name).length > 0 && bytes(_symbol).length > 0, '3aea92'); // validate input
 
         name = _name;
         symbol = _symbol;
@@ -93,7 +93,7 @@ contract NonStandardERC20Token is INonStandardERC20, Utils {
         validAddress(_spender)
     {
         // if the allowance isn't 0, it can only be updated to 0 to prevent an allowance change immediately after withdrawal
-        require(_value == 0 || allowance[msg.sender][_spender] == 0);
+        require(_value == 0 || allowance[msg.sender][_spender] == 0, '5fe646');
 
         allowance[msg.sender][_spender] = _value;
         emit Approval(msg.sender, _spender, _value);

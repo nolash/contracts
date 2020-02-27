@@ -157,69 +157,70 @@ contract BancorConverter is IBancorConverter, SmartTokenController, Managed, Con
 
     // validates a connector token address - verifies that the address belongs to one of the connector tokens
     modifier validConnector(IERC20Token _address) {
-        require(connectors[_address].isSet);
+        require(connectors[_address].isSet, 'e4f41b');
         _;
     }
 
     // validates a token address - verifies that the address belongs to one of the convertible tokens
     modifier validToken(IERC20Token _address) {
-        require(_address == token || connectors[_address].isSet);
+        require(_address == token || connectors[_address].isSet, 'cce676');
         _;
     }
 
     // validates maximum conversion fee
     modifier validMaxConversionFee(uint32 _conversionFee) {
-        require(_conversionFee >= 0 && _conversionFee <= MAX_CONVERSION_FEE);
+        require(_conversionFee >= 0 && _conversionFee <= MAX_CONVERSION_FEE, 'badb6c');
         _;
     }
 
     // validates conversion fee
     modifier validConversionFee(uint32 _conversionFee) {
-        require(_conversionFee >= 0 && _conversionFee <= maxConversionFee);
+        require(_conversionFee >= 0 && _conversionFee <= maxConversionFee, 'a5a8b1');
         _;
     }
 
     // validates connector weight range
     modifier validConnectorWeight(uint32 _weight) {
-        require(_weight > 0 && _weight <= MAX_WEIGHT);
+        require(_weight > 0 && _weight <= MAX_WEIGHT, '783187');
         _;
     }
 
     // validates a conversion path - verifies that the number of elements is odd and that maximum number of 'hops' is 10
     modifier validConversionPath(IERC20Token[] _path) {
-        require(_path.length > 2 && _path.length <= (1 + 2 * 10) && _path.length % 2 == 1);
+        require(_path.length > 2 && _path.length <= (1 + 2 * 10) && _path.length % 2 == 1, 'b7421e');
         _;
     }
 
     // allows execution only when the total weight is 100%
     modifier maxTotalWeightOnly() {
-        require(totalConnectorWeight == MAX_WEIGHT);
+        require(totalConnectorWeight == MAX_WEIGHT, '6c0778');
         _;
     }
 
     // allows execution only when conversions aren't disabled
     modifier conversionsAllowed {
-        assert(conversionsEnabled);
+        //assert(conversionsEnabled);
+	require(conversionsEnabled == true, '2rughwogh');
         _;
     }
 
     // allows execution by the BancorNetwork contract only
     modifier bancorNetworkOnly {
         IBancorNetwork bancorNetwork = IBancorNetwork(registry.addressOf(ContractIds.BANCOR_NETWORK));
-        require(msg.sender == address(bancorNetwork));
+        require(msg.sender == address(bancorNetwork), '9071e9');
         _;
     }
 
     // allows execution by the converter upgrader contract only
     modifier converterUpgraderOnly {
         address converterUpgrader = registry.addressOf(ContractIds.BANCOR_CONVERTER_UPGRADER);
-        require(owner == converterUpgrader);
+        require(owner == converterUpgrader, '43b705');
         _;
     }
 
     // allows execution only when claim tokens is enabled
     modifier whenClaimTokensEnabled {
-        require(claimTokensEnabled);
+        require(claimTokensEnabled, '211642');
         _;
     }
 
@@ -228,13 +229,13 @@ contract BancorConverter is IBancorConverter, SmartTokenController, Managed, Con
      */
     function updateRegistry() public {
         // require that upgrading is allowed or that the caller is the owner
-        require(allowRegistryUpdate || msg.sender == owner);
+        require(allowRegistryUpdate || msg.sender == owner, '3596ac');
 
         // get the address of whichever registry the current registry is pointing to
         address newRegistry = registry.addressOf(ContractIds.CONTRACT_REGISTRY);
 
         // if the new registry hasn't changed or is the zero address, revert
-        require(newRegistry != address(registry) && newRegistry != address(0));
+        require(newRegistry != address(registry) && newRegistry != address(0), 'c38fb3');
 
         // set the previous registry as current registry and current registry as newRegistry
         prevRegistry = registry;
@@ -369,7 +370,7 @@ contract BancorConverter is IBancorConverter, SmartTokenController, Managed, Con
 
         // if the token is not a connector token, allow withdrawal
         // otherwise verify that the converter is inactive or that the owner is the upgrader contract
-        require(!connectors[_token].isSet || token.owner() != address(this) || owner == converterUpgrader);
+        require(!connectors[_token].isSet || token.owner() != address(this) || owner == converterUpgrader, '92be8a');
         super.withdrawTokens(_token, _to, _amount);
     }
 
@@ -384,7 +385,7 @@ contract BancorConverter is IBancorConverter, SmartTokenController, Managed, Con
         address bancorX = registry.addressOf(ContractIds.BANCOR_X);
 
         // only the bancorX contract may call this method
-        require(msg.sender == bancorX);
+        require(msg.sender == bancorX, '28749b');
 
         // destroy the tokens belonging to _from, and issue the same amount to bancorX contract
         token.destroy(_from, _amount);
@@ -420,7 +421,7 @@ contract BancorConverter is IBancorConverter, SmartTokenController, Managed, Con
         notThis(_token)
         validConnectorWeight(_weight)
     {
-        require(_token != token && !connectors[_token].isSet && totalConnectorWeight + _weight <= MAX_WEIGHT); // validate input
+        require(_token != token && !connectors[_token].isSet && totalConnectorWeight + _weight <= MAX_WEIGHT, 'ec9283'); // validate input
 
         connectors[_token].virtualBalance = 0;
         connectors[_token].weight = _weight;
@@ -447,7 +448,7 @@ contract BancorConverter is IBancorConverter, SmartTokenController, Managed, Con
         validConnectorWeight(_weight)
     {
         Connector storage connector = connectors[_connectorToken];
-        require(totalConnectorWeight - connector.weight + _weight <= MAX_WEIGHT); // validate input
+        require(totalConnectorWeight - connector.weight + _weight <= MAX_WEIGHT, 'a47f03'); // validate input
 
         totalConnectorWeight = totalConnectorWeight - connector.weight + _weight;
         connector.weight = _weight;
@@ -498,7 +499,7 @@ contract BancorConverter is IBancorConverter, SmartTokenController, Managed, Con
         @return expected conversion return amount and conversion fee
     */
     function getReturn(IERC20Token _fromToken, IERC20Token _toToken, uint256 _amount) public view returns (uint256, uint256) {
-        require(_fromToken != _toToken); // validate input
+        require(_fromToken != _toToken, '5d2905'); // validate input
 
         // conversion between the token and one of its connectors
         if (_toToken == token)
@@ -526,7 +527,7 @@ contract BancorConverter is IBancorConverter, SmartTokenController, Managed, Con
         returns (uint256, uint256)
     {
         Connector storage connector = connectors[_connectorToken];
-        require(connector.isSaleEnabled); // validate input
+        require(connector.isSaleEnabled, '344b5c'); // validate input
 
         uint256 tokenSupply = token.totalSupply();
         uint256 connectorBalance = getConnectorBalance(_connectorToken);
@@ -583,7 +584,7 @@ contract BancorConverter is IBancorConverter, SmartTokenController, Managed, Con
     {
         Connector storage fromConnector = connectors[_fromConnectorToken];
         Connector storage toConnector = connectors[_toConnectorToken];
-        require(fromConnector.isSaleEnabled); // validate input
+        require(fromConnector.isSaleEnabled, '680777'); // validate input
 
         IBancorFormula formula = IBancorFormula(registry.addressOf(ContractIds.BANCOR_FORMULA));
         uint256 amount = formula.calculateCrossConnectorReturn(
@@ -617,7 +618,7 @@ contract BancorConverter is IBancorConverter, SmartTokenController, Managed, Con
         greaterThanZero(_minReturn)
         returns (uint256)
     {
-        require(_fromToken != _toToken); // validate input
+        require(_fromToken != _toToken, '383f62'); // validate input
 
         // conversion between the token and one of its connectors
         if (_toToken == token)
@@ -631,7 +632,7 @@ contract BancorConverter is IBancorConverter, SmartTokenController, Managed, Con
         // conversion between 2 connectors
         (amount, feeAmount) = getCrossConnectorReturn(_fromToken, _toToken, _amount);
         // ensure the trade gives something in return and meets the minimum requested amount
-        require(amount != 0 && amount >= _minReturn);
+        require(amount != 0 && amount >= _minReturn, '09d78e');
 
         // update the source token virtual balance if relevant
         Connector storage fromConnector = connectors[_fromToken];
@@ -692,7 +693,7 @@ contract BancorConverter is IBancorConverter, SmartTokenController, Managed, Con
         uint256 feeAmount;
         (amount, feeAmount) = getPurchaseReturn(_connectorToken, _depositAmount);
         // ensure the trade gives something in return and meets the minimum requested amount
-        require(amount != 0 && amount >= _minReturn);
+        require(amount != 0 && amount >= _minReturn, 'bc57a4');
 
         // update virtual balance if relevant
         Connector storage connector = connectors[_connectorToken];
@@ -722,23 +723,23 @@ contract BancorConverter is IBancorConverter, SmartTokenController, Managed, Con
         @return sell return amount
     */
     function sell(IERC20Token _connectorToken, uint256 _sellAmount, uint256 _minReturn) internal returns (uint256) {
-        require(_sellAmount <= token.balanceOf(msg.sender)); // validate input
+        require(_sellAmount <= token.balanceOf(msg.sender), '08becc'); // validate input
         uint256 amount;
         uint256 feeAmount;
         (amount, feeAmount) = getSaleReturn(_connectorToken, _sellAmount);
         // ensure the trade gives something in return and meets the minimum requested amount
-        require(amount != 0 && amount >= _minReturn);
+        require(amount != 0 && amount >= _minReturn, '5f736d');
 
         // ensure that the trade will only deplete the connector balance if the total supply is depleted as well
         uint256 tokenSupply = token.totalSupply();
         uint256 connectorBalance = getConnectorBalance(_connectorToken);
-        assert(amount < connectorBalance || (amount == connectorBalance && _sellAmount == tokenSupply));
+        //assert(amount < connectorBalance || (amount == connectorBalance && _sellAmount == tokenSupply));
+        require((amount < connectorBalance || (amount == connectorBalance && _sellAmount == tokenSupply)) == true, 'fafasf');
 
         // update virtual balance if relevant
         Connector storage connector = connectors[_connectorToken];
         if (connector.isVirtualBalanceEnabled)
             connector.virtualBalance = connector.virtualBalance.sub(amount);
-
         // destroy _sellAmount from the caller's balance in the smart token
         token.destroy(msg.sender, _sellAmount);
         // transfer funds to the caller in the connector token
@@ -843,7 +844,7 @@ contract BancorConverter is IBancorConverter, SmartTokenController, Managed, Con
         IBancorNetwork bancorNetwork = IBancorNetwork(registry.addressOf(ContractIds.BANCOR_NETWORK));
 
         // verify that the first token in the path is BNT
-        require(_path[0] == registry.addressOf(ContractIds.BNT_TOKEN));
+        require(_path[0] == registry.addressOf(ContractIds.BNT_TOKEN), 'dbc9d4');
 
         // get conversion amount from BancorX contract
         uint256 amount = bancorX.getXTransferAmount(_conversionId, msg.sender);

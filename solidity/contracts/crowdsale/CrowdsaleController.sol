@@ -64,7 +64,7 @@ contract CrowdsaleController is SmartTokenController {
 
     // verifies that the ether cap is valid based on the key provided
     modifier validEtherCap(uint256 _cap, uint256 _key) {
-        require(computeRealCap(_cap, _key) == realEtherCapHash);
+        require(computeRealCap(_cap, _key) == realEtherCapHash, 'b22954');
         _;
     }
 
@@ -123,7 +123,7 @@ contract CrowdsaleController is SmartTokenController {
         between(startTime, endTime)
         validEtherCap(_cap, _key)
     {
-        require(_cap < totalEtherCap); // validate input
+        require(_cap < totalEtherCap, '305464'); // validate input
         totalEtherCap = _cap;
     }
 

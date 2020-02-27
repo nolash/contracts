@@ -44,7 +44,7 @@ contract ERC20Token is IERC20Token, Utils {
         @param _decimals    decimal points, for display purposes
     */
     constructor(string _name, string _symbol, uint8 _decimals) public {
-        require(bytes(_name).length > 0 && bytes(_symbol).length > 0); // validate input
+        require(bytes(_name).length > 0 && bytes(_symbol).length > 0, 'e69d76'); // validate input
 
         name = _name;
         symbol = _symbol;
@@ -113,7 +113,7 @@ contract ERC20Token is IERC20Token, Utils {
         returns (bool success)
     {
         // if the allowance isn't 0, it can only be updated to 0 to prevent an allowance change immediately after withdrawal
-        require(_value == 0 || allowance[msg.sender][_spender] == 0);
+        require(_value == 0 || allowance[msg.sender][_spender] == 0, '3503ce');
 
         allowance[msg.sender][_spender] = _value;
         emit Approval(msg.sender, _spender, _value);

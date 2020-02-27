@@ -81,7 +81,7 @@ contract NonStandardSmartToken is INonStandardSmartToken, Owned, NonStandardERC2
         @param _amount     amount to decrease the supply by
     */
     function destroy(address _from, uint256 _amount) public {
-        require(msg.sender == _from || msg.sender == owner); // validate input
+        require(msg.sender == _from || msg.sender == owner, '8267f7'); // validate input
 
         balanceOf[_from] = balanceOf[_from].sub(_amount);
         totalSupply = totalSupply.sub(_amount);

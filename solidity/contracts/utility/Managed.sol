@@ -32,7 +32,7 @@ contract Managed is Owned {
 
     // allows execution by either the owner or the manager only
     modifier ownerOrManagerOnly {
-        require(msg.sender == owner || msg.sender == manager);
+        require(msg.sender == owner || msg.sender == manager, '0c365d');
         _;
     }
 
@@ -44,7 +44,7 @@ contract Managed is Owned {
         @param _newManager    new contract manager
     */
     function transferManagement(address _newManager) public ownerOrManagerOnly {
-        require(_newManager != manager);
+        require(_newManager != manager, 'e74af0');
         newManager = _newManager;
     }
 
@@ -52,7 +52,7 @@ contract Managed is Owned {
         @dev used by a new manager to accept a management transfer
     */
     function acceptManagement() public {
-        require(msg.sender == newManager);
+        require(msg.sender == newManager, '002590');
         emit ManagerUpdate(manager, newManager);
         manager = newManager;
         newManager = address(0);

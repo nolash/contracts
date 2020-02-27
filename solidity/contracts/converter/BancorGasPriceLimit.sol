@@ -46,8 +46,8 @@ contract BancorGasPriceLimit is IBancorGasPriceLimit, Owned, Utils {
     function validateGasPrice(uint256 _gasPrice)
         public
         view
-        greaterThanZero(_gasPrice)
     {
-        require(_gasPrice <= gasPrice);
+        require(_gasPrice > 0, 'wefwef');
+        require(_gasPrice <= gasPrice, '7ac2d2');
     }
 }

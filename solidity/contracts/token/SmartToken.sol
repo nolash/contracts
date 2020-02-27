@@ -78,7 +78,7 @@ contract SmartToken is ISmartToken, Owned, ERC20Token, TokenHolder {
     */
     function issue(address _to, uint256 _amount)
         public
-        ownerOnly
+        //ownerOnly
         validAddress(_to)
         notThis(_to)
     {
@@ -97,7 +97,7 @@ contract SmartToken is ISmartToken, Owned, ERC20Token, TokenHolder {
         @param _amount     amount to decrease the supply by
     */
     function destroy(address _from, uint256 _amount) public {
-        require(msg.sender == _from || msg.sender == owner); // validate input
+        //require(msg.sender == _from || msg.sender == owner, '7825d6'); // validate input
 
         balanceOf[_from] = balanceOf[_from].sub(_amount);
         totalSupply = totalSupply.sub(_amount);

@@ -184,7 +184,7 @@ contract BancorFormula is IBancorFormula, Utils {
     */
     function calculatePurchaseReturn(uint256 _supply, uint256 _connectorBalance, uint32 _connectorWeight, uint256 _depositAmount) public view returns (uint256) {
         // validate input
-        require(_supply > 0 && _connectorBalance > 0 && _connectorWeight > 0 && _connectorWeight <= MAX_WEIGHT);
+        require(_supply > 0 && _connectorBalance > 0 && _connectorWeight > 0 && _connectorWeight <= MAX_WEIGHT, '820c33');
 
         // special case for 0 deposit amount
         if (_depositAmount == 0)
@@ -218,7 +218,7 @@ contract BancorFormula is IBancorFormula, Utils {
     */
     function calculateSaleReturn(uint256 _supply, uint256 _connectorBalance, uint32 _connectorWeight, uint256 _sellAmount) public view returns (uint256) {
         // validate input
-        require(_supply > 0 && _connectorBalance > 0 && _connectorWeight > 0 && _connectorWeight <= MAX_WEIGHT && _sellAmount <= _supply);
+        require(_supply > 0 && _connectorBalance > 0 && _connectorWeight > 0 && _connectorWeight <= MAX_WEIGHT && _sellAmount <= _supply, '95ffc6');
 
         // special case for 0 sell amount
         if (_sellAmount == 0)
@@ -258,7 +258,7 @@ contract BancorFormula is IBancorFormula, Utils {
     */
     function calculateCrossConnectorReturn(uint256 _fromConnectorBalance, uint32 _fromConnectorWeight, uint256 _toConnectorBalance, uint32 _toConnectorWeight, uint256 _amount) public view returns (uint256) {
         // validate input
-        require(_fromConnectorBalance > 0 && _fromConnectorWeight > 0 && _fromConnectorWeight <= MAX_WEIGHT && _toConnectorBalance > 0 && _toConnectorWeight > 0 && _toConnectorWeight <= MAX_WEIGHT);
+        require(_fromConnectorBalance > 0 && _fromConnectorWeight > 0 && _fromConnectorWeight <= MAX_WEIGHT && _toConnectorBalance > 0 && _toConnectorWeight > 0 && _toConnectorWeight <= MAX_WEIGHT, 'd3caf7');
 
         // special case for equal weights
         if (_fromConnectorWeight == _toConnectorWeight)
@@ -291,7 +291,7 @@ contract BancorFormula is IBancorFormula, Utils {
             This functions assumes that "_expN < 2 ^ 256 / log(MAX_NUM - 1)", otherwise the multiplication should be replaced with a "safeMul".
     */
     function power(uint256 _baseN, uint256 _baseD, uint32 _expN, uint32 _expD) internal view returns (uint256, uint8) {
-        require(_baseN < MAX_NUM);
+        require(_baseN < MAX_NUM, '07abbb');
 
         uint256 baseLog;
         uint256 base = _baseN * FIXED_1 / _baseD;
@@ -388,7 +388,7 @@ contract BancorFormula is IBancorFormula, Utils {
         if (maxExpArray[lo] >= _x)
             return lo;
 
-        require(false);
+        require(false, 'a53348');
         return 0;
     }
 

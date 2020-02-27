@@ -175,19 +175,19 @@ contract BancorX is IBancorX, Owned, TokenHolder, ContractIds {
 
     // validates that the caller is a reporter
     modifier isReporter {
-        require(reporters[msg.sender]);
+        require(reporters[msg.sender], 'bcb14d');
         _;
     }
 
     // allows execution only when x transfers are enabled
     modifier whenXTransfersEnabled {
-        require(xTransfersEnabled);
+        require(xTransfersEnabled, 'a2002c');
         _;
     }
 
     // allows execution only when reporting is enabled
     modifier whenReportingEnabled {
-        require(reportingEnabled);
+        require(reportingEnabled, '133f7f');
         _;
     }
 
@@ -288,13 +288,13 @@ contract BancorX is IBancorX, Owned, TokenHolder, ContractIds {
      */
     function updateRegistry() public {
         // require that upgrading is allowed or that the caller is the owner
-        require(allowRegistryUpdate || msg.sender == owner);
+        require(allowRegistryUpdate || msg.sender == owner, '6797e5');
 
         // get the address of whichever registry the current registry is pointing to
         address newRegistry = registry.addressOf(ContractIds.CONTRACT_REGISTRY);
 
         // if the new registry hasn't changed or is the zero address, revert
-        require(newRegistry != address(registry) && newRegistry != address(0));
+        require(newRegistry != address(registry) && newRegistry != address(0), '7c9505');
 
         // set the previous registry as current registry and current registry as newRegistry
         prevRegistry = registry;
@@ -340,7 +340,7 @@ contract BancorX is IBancorX, Owned, TokenHolder, ContractIds {
         uint256 currentLockLimit = getCurrentLockLimit();
 
         // require that; minLimit <= _amount <= currentLockLimit
-        require(_amount >= minLimit && _amount <= currentLockLimit);
+        require(_amount >= minLimit && _amount <= currentLockLimit, '0ca98d');
         
         lockTokens(_amount);
 
@@ -365,7 +365,7 @@ contract BancorX is IBancorX, Owned, TokenHolder, ContractIds {
         uint256 currentLockLimit = getCurrentLockLimit();
 
         // require that; minLimit <= _amount <= currentLockLimit
-        require(_amount >= minLimit && _amount <= currentLockLimit);
+        require(_amount >= minLimit && _amount <= currentLockLimit, 'db5d3f');
         
         lockTokens(_amount);
 
@@ -398,7 +398,7 @@ contract BancorX is IBancorX, Owned, TokenHolder, ContractIds {
         whenReportingEnabled
     {
         // require that the transaction has not been reported yet by the reporter
-        require(!reportedTxs[_txId][msg.sender]);
+        require(!reportedTxs[_txId][msg.sender], '62c535');
 
         // set reported as true
         reportedTxs[_txId][msg.sender] = true;
@@ -413,15 +413,15 @@ contract BancorX is IBancorX, Owned, TokenHolder, ContractIds {
 
             if (_xTransferId != 0) {
                 // verify uniqueness of xTransfer id to prevent overwriting
-                require(transactionIds[_xTransferId] == 0);
+                require(transactionIds[_xTransferId] == 0, '5a3c1e');
                 transactionIds[_xTransferId] = _txId;
             }
         } else {
             // otherwise, verify transaction details
-            require(txn.to == _to && txn.amount == _amount && txn.fromBlockchain == _fromBlockchain);
+            require(txn.to == _to && txn.amount == _amount && txn.fromBlockchain == _fromBlockchain, '0f4898');
             
             if (_xTransferId != 0) {
-                require(transactionIds[_xTransferId] == _txId);
+                require(transactionIds[_xTransferId] == _txId, '5d87a2');
             }
         }
         
@@ -432,7 +432,7 @@ contract BancorX is IBancorX, Owned, TokenHolder, ContractIds {
 
         // if theres enough reports, try to release tokens
         if (txn.numOfReports >= minRequiredReports) {
-            require(!transactions[_txId].completed);
+            require(!transactions[_txId].completed, '82ad7d');
 
             // set the transaction as completed
             transactions[_txId].completed = true;
@@ -456,7 +456,7 @@ contract BancorX is IBancorX, Owned, TokenHolder, ContractIds {
         Transaction storage transaction = transactions[transactionIds[_xTransferId]];
 
         // verify that the xTransferId is for _for
-        require(transaction.to == _for);
+        require(transaction.to == _for, 'f04315');
 
         return transaction.amount;
     }
@@ -509,7 +509,7 @@ contract BancorX is IBancorX, Owned, TokenHolder, ContractIds {
         // get the current release limit
         uint256 currentReleaseLimit = getCurrentReleaseLimit();
 
-        require(_amount >= minLimit && _amount <= currentReleaseLimit);
+        require(_amount >= minLimit && _amount <= currentReleaseLimit, '877ce0');
         
         // update the previous release limit and block number
         prevReleaseLimit = currentReleaseLimit.sub(_amount);

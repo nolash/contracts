@@ -33,13 +33,13 @@ contract SmartTokenController is TokenHolder {
 
     // ensures that the controller is the token's owner
     modifier active() {
-        require(token.owner() == address(this));
+        require(token.owner() == address(this), '7ef39f');
         _;
     }
 
     // ensures that the controller is not the token's owner
     modifier inactive() {
-        require(token.owner() != address(this));
+        require(token.owner() != address(this), '807702');
         _;
     }
 

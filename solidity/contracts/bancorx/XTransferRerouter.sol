@@ -31,7 +31,7 @@ contract XTransferRerouter is Owned {
 
     // allows execution only when rerouting enabled
     modifier whenReroutingEnabled {
-        require(reroutingEnabled);
+        require(reroutingEnabled, 'c863e5');
         _;
     }
 

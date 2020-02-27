@@ -25,7 +25,7 @@ contract Owned is IOwned {
 
     // allows execution by the owner only
     modifier ownerOnly {
-        require(msg.sender == owner);
+        require(msg.sender == owner, 'e71293');
         _;
     }
 
@@ -37,7 +37,7 @@ contract Owned is IOwned {
         @param _newOwner    new contract owner
     */
     function transferOwnership(address _newOwner) public ownerOnly {
-        require(_newOwner != owner);
+        require(_newOwner != owner, 'f20c39');
         newOwner = _newOwner;
     }
 
@@ -45,7 +45,7 @@ contract Owned is IOwned {
         @dev used by a new owner to accept an ownership transfer
     */
     function acceptOwnership() public {
-        require(msg.sender == newOwner);
+        require(msg.sender == newOwner, 'f975ae');
         emit OwnerUpdate(owner, newOwner);
         owner = newOwner;
         newOwner = address(0);
