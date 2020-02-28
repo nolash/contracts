@@ -4,8 +4,8 @@
 const XTransferRerouter = artifacts.require('XTransferRerouter');
 const utils = require('./helpers/Utils');
 
-const EOS_ADDRESS    = web3.fromAscii('just a string 1')
-const EOS_BLOCKCHAIN = web3.fromAscii('just a string 2')
+const EOS_ADDRESS    = web3.utils.asciiToHex('just a string 1')
+const EOS_BLOCKCHAIN = web3.utils.asciiToHex('just a string 2')
 
 let txRouter
 let accounts

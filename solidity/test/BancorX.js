@@ -10,19 +10,19 @@ const SmartToken = artifacts.require('SmartToken');
 const EtherToken = artifacts.require('EtherToken');
 const ContractRegistry = artifacts.require('ContractRegistry');
 
-const MAX_LOCK_LIMIT    = web3.toBigNumber('1000000000000000000000') // 1000 tokens
-const MAX_RELEASE_LIMIT = web3.toBigNumber('1000000000000000000000') // 1000 tokens
-const MIN_LIMIT         = web3.toBigNumber('1000000000000000000') // 1 token
-const LIM_INC_PER_BLOCK = web3.toBigNumber('1000000000000000000') // 1 token
-const TEST_AMOUNT       = web3.toBigNumber('10000000000000000000') // 10 tokens
-const SUPPLY_AMOUNT     = web3.toBigNumber('77492920201018469141404133')
-const RESERVE_AMOUNT    = web3.toBigNumber('45688650129186275318509')
-const MIN_REQ_REPORTS   = web3.toBigNumber('3')
-const TRANSACTION_ID    = web3.toBigNumber('12345678')
-const X_TRANSFER_ID     = web3.toBigNumber('87654321')
+const MAX_LOCK_LIMIT    = web3.utils.toBN('1000000000000000000000') // 1000 tokens
+const MAX_RELEASE_LIMIT = web3.utils.toBN('1000000000000000000000') // 1000 tokens
+const MIN_LIMIT         = web3.utils.toBN('1000000000000000000') // 1 token
+const LIM_INC_PER_BLOCK = web3.utils.toBN('1000000000000000000') // 1 token
+const TEST_AMOUNT       = web3.utils.toBN('10000000000000000000') // 10 tokens
+const SUPPLY_AMOUNT     = web3.utils.toBN('77492920201018469141404133')
+const RESERVE_AMOUNT    = web3.utils.toBN('45688650129186275318509')
+const MIN_REQ_REPORTS   = web3.utils.toBN('3')
+const TRANSACTION_ID    = web3.utils.toBN('12345678')
+const X_TRANSFER_ID     = web3.utils.toBN('87654321')
 
-const EOS_ADDRESS    = web3.fromAscii('just a string 1')
-const EOS_BLOCKCHAIN = web3.fromAscii('just a string 2')
+const EOS_ADDRESS    = web3.utils.asciiToHex('just a string 1')
+const EOS_BLOCKCHAIN = web3.utils.asciiToHex('just a string 2')
 
 function assertEqual(x, y) {
     assert.equal(x.toFixed(), y.toFixed())
