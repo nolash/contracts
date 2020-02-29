@@ -95,7 +95,7 @@ contract('BancorConverter', accounts => {
     });
 
     it('verifies the converter data after construction', async () => {
-        let converter = await BancorConverter.new(tokenAddress, contractRegistry.address, 0, '0x0', 0);
+        let converter = await BancorConverter.new(tokenAddress, contractRegistry.address, 0, '0x0000000000000000000000000000000000000000', 0);
         let token = await converter.token.call();
         assert.equal(token, tokenAddress);
         let registry = await converter.registry.call();

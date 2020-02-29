@@ -11,6 +11,7 @@ let Utils = artifacts.require('Utils');
 module.exports = async function(deployer, network, accounts) {
 	deployer.then(async () => {
 		let registry = await deployer.deploy(ContractRegistry);
+		let registryClient = await deployer.deploy(ContractRegistryClient, registry);
 		let network = await deployer.deploy(BancorNetwork, registry.address);
 		let etherToken = await deployer.deploy(EtherToken);
 		let smartToken = await deployer.deploy(SmartToken, 'Grassroots Smarttoken', 'SMRT', 18);
