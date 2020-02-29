@@ -16,7 +16,7 @@ module.exports = async function(deployer, network, accounts) {
 		deployer.link(ContractRegistry, [BancorConverterRegistry]);
 		let converterRegistry = await deployer.deploy(BancorConverterRegistry, registry.address);
 		let network = await deployer.deploy(BancorNetwork, registry.address);
-		let etherToken = await deployer.deploy(EtherToken);
+		let etherToken = await deployer.deploy(EtherToken, "GE Ether token", "GEETH");
 		let smartToken = await deployer.deploy(SmartToken, 'Grassroots Smarttoken', 'SMRT', 18);
 		let r = await web3.eth.sendTransaction({from: accounts[0], to: etherToken.address, value: 100000000});
 		let converter = await deployer.deploy(BancorConverter, smartToken.address, registry.address, 0, etherToken.address, 25000);

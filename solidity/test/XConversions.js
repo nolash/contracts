@@ -325,9 +325,8 @@ contract("XConversions", accounts => {
         })
     })
 
-    //for (const percent of ["0.5", "1.0", "1.5", "2.0", "3.0"]) {
-    for (const percent of ["50", "100", "150", "200", "300"]) {
-        const affiliateFee = web3.utils.toBN(10000).mul(web3.utils.toBN(percent)).div(web3.utils.toBN(100))
+    for (const percent of ["0.5", "1.0", "1.5", "2.0", "3.0"]) {
+        const affiliateFee = web3.toBigNumber(1000000).mul(percent).div(100)
         describe(`advanced testing with affiliate-fee = ${percent}%:`, () => {
             before(async () => {
                 await initBancorNetwork(accounts)
