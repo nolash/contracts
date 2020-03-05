@@ -11,7 +11,7 @@ module.exports = {
             port:       7545,
             network_id: "*",         // Match any network id
             gasPrice:   2000000000, // Gas price used for deploys
-            gas:        80000000      // Gas limit used for deploys
+            gas:        800000000      // Gas limit used for deploys
         },
         // production: {
         //     host:       "localhost",
@@ -68,7 +68,7 @@ module.exports = {
     },
     compilers: {
         solc: {
-            version: "0.4.24",
+            version: "0.4.26",
             settings: {
                 optimizer: {
                     enabled: true,

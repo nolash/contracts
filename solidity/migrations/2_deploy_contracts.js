@@ -135,14 +135,14 @@ module.exports = function(deployer, network, accounts) {
                         }));
                     let networkContract = contracts['BANCOR_NETWORK'];
 
-                    await trystage( deployer.deploy(BancorConverterFactory).then(async (instance) =>
-                        registerContract(instance, 'BANCOR_CONVERTER_FACTORY')
-                    ));
+                   // await trystage( deployer.deploy(BancorConverterFactory).then(async (instance) =>
+                    //    registerContract(instance, 'BANCOR_CONVERTER_FACTORY')
+                   // ));
 
-                    await trystage( deployer.deploy(BancorConverterUpgrader, contractRegistry.address)
-                        .then(async (instance) =>
-                            registerContract(instance, 'BANCOR_CONVERTER_UPGRADER')
-                        ));
+                   // await trystage( deployer.deploy(BancorConverterUpgrader, contractRegistry.address)
+                    //    .then(async (instance) =>
+                    //        registerContract(instance, 'BANCOR_CONVERTER_UPGRADER')
+                     //   ));
 
                     let bancorXId = await contractIds.BANCOR_X.call();
                     await contractRegistry.registerAddress(bancorXId, accounts[0]);
@@ -341,7 +341,7 @@ module.exports = function(deployer, network, accounts) {
                     let payAmountCIC1CIC2 = 30
 
                     let purchaseRes3 = await networkConverter.quickConvert(cic1Tocic2Path, payAmountCIC1CIC2, 1)
-                        .on('data', event => console.log('event is', event));
+                      //  .on('data', event => console.log('event is', event));
 
                     console.log('##### AFTER #####')
 
