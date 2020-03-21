@@ -24,7 +24,7 @@ module.exports = {
         },
 	grassroots: {     // See <https://www.npmjs.com/package/solidity-coverage#network-configuration>
             host:       "localhost",
-            port:       7545,            // Also in .solcover.js
+            port:       8545,            // Also in .solcover.js
             network_id: "*",             // Match any network id
             gasPrice:   0x1,             // Gas price used for deploys
             gas:        6721975,

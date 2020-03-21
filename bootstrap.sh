@@ -2,8 +2,8 @@
 
 pyver='3.7.3'
 pydir="Python-${pyver}"
-#pysrc="https://www.python.org/ftp/python/${pyver}/${pydir}.tgz"
-pysrc="/home/lash/Downloads/${pydir}.tgz"
+pysrc="https://www.python.org/ftp/python/${pyver}/${pydir}.tgz"
+#pysrc="/home/lash/Downloads/${pydir}.tgz"
 web3pyver='4.9.2'
 nodever='10.16.0'
 nodeverexisting=$(node --version)
@@ -21,13 +21,12 @@ fi
 
 tmp=`mktemp -d`
 pushd $tmp
-#wget $pysrc
-cp $pysrc .
+wget $pysrc
+#cp $pysrc .
 tar -zxvf ${pydir}.tgz
 ls
 pushd ${pydir}
 pysrcdir=`pwd`
-echo diiiiir $pysrcdir
 ls
 ./configure --prefix=/usr
 make
