@@ -1,5 +1,6 @@
 let ContractRegistry = artifacts.require('ContractRegistry');
 let BancorNetwork = artifacts.require('BancorNetwork');
+let BancorNetworkPathFinder = artifacts.require('BancorNetworkPathFinder');
 let BancorConverter = artifacts.require('BancorConverter');
 let BancorConverterFactory = artifacts.require('BancorConverterFactory');
 let BancorConverterRegistry = artifacts.require('BancorConverterRegistry');
@@ -31,6 +32,7 @@ module.exports = async function(deployer, network, accounts) {
 		let converterFactory = await deployer.deploy(BancorConverterFactory);
 		let features = await deployer.deploy(ContractFeatures);
 		let formula = await deployer.deploy(BancorFormula);
+		let networkPathFinder = await deployer.deploy(BancorNetworkPathFinder, registry.address);
 
 
 		// set up the registry
@@ -39,6 +41,7 @@ module.exports = async function(deployer, network, accounts) {
 		registry.registerAddress("ContractFeatures", features.address);
 		registry.registerAddress("BancorConverterRegistry", converterRegistry.address);
 		registry.registerAddress("BancorConverterRegistryData", converterRegistryData.address);
+		registry.registerAddress("BancorNetworkPathFinder", networkPathFinder.address);
 		registry.registerAddress("BancorFormula", formula.address);
 
 		// register the reserve token
@@ -64,11 +67,7 @@ module.exports = async function(deployer, network, accounts) {
 		//console.log("tokenB supply", s, e);
 		
 		await web3.eth.sendTransaction({from: accounts[0], to: etherToken.address, value: amount_initial_reserve});
-		await web3.eth.sendTransaction({from: accounts[1], to: etherToken.address, value: amount_initial_reserve_token});
-		await etherToken.approve(converter.address, amount_initial_reserve_token);
-		//await etherToken.approve(converterB.address, amount_initial_reserve_token);
 		await etherToken.transfer(converter.address, amount_initial_reserve_token);
-		//await etherToken.transfer(converterB.address, amount_initial_reserve, {from: accounts[1]});
 
 		await smartToken.issue(accounts[0], amount_initial_minted_token);	
 		await smartToken.transferOwnership(converter.address);
