@@ -63,7 +63,7 @@ module.exports = async function(deployer, network, accounts) {
 		//s = await smartTokenB.totalSupply();
 		//console.log("tokenB supply", s, e);
 		
-		await web3.eth.sendTransaction({from: accounts[0], to: etherToken.address, value: amount_initial_reserve_token});
+		await web3.eth.sendTransaction({from: accounts[0], to: etherToken.address, value: amount_initial_reserve});
 		await web3.eth.sendTransaction({from: accounts[1], to: etherToken.address, value: amount_initial_reserve_token});
 		await etherToken.approve(converter.address, amount_initial_reserve_token);
 		//await etherToken.approve(converterB.address, amount_initial_reserve_token);
