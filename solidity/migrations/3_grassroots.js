@@ -39,6 +39,7 @@ module.exports = async function(deployer, network, accounts) {
 		registry.registerAddress("BancorNetwork", network.address);
 		registry.registerAddress("ContractFeatures", features.address);
 		registry.registerAddress("BancorConverterRegistry", converterRegistry.address);
+		registry.registerAddress("BancorConverterFactory", converterFactory.address);
 		registry.registerAddress("BancorConverterRegistryData", converterRegistryData.address);
 		registry.registerAddress("BancorNetworkPathFinder", networkPathFinder.address);
 		registry.registerAddress("BancorFormula", formula.address);
