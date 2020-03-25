@@ -1,0 +1,18 @@
+This is a fork of the Bancor master development branch.
+
+In addition to an Grassroots Economics specific migration script for development purposes, it also adds two scripts that seek to make bootstrapping of the development environment easier.
+
+
+To get started with the development environment, run:
+
+* bash bootstrap.sh
+* . start.sh
+
+
+Then start ganache and run:
+
+* cd solidity
+* truffle --network development migrate
+
+
+Please report bugs to accounts-grassrootseconomics@holbrook.no

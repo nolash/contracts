@@ -56,7 +56,7 @@ module.exports = async function(deployer, network, accounts) {
 		await web3.eth.sendTransaction({from: accounts[0], to: etherToken.address, value: amount_initial_reserve});
 		await etherToken.transfer(converter.address, amount_initial_reserve_token);
 
-		await smartToken.issue(accounts[0], amount_initial_minted_token);	
+		await smartToken.issue(accounts[0], amount_initial_minted_token);
 		await smartToken.transferOwnership(converter.address);
 		let t = await converter.acceptTokenOwnership();
 
