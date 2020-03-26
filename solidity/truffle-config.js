@@ -1,16 +1,19 @@
-let HDWalletProvider = require('truffle-hdwallet-provider');
+let HDWalletProvider = require('@truffle/hdwallet-provider');
 
-let mnemonics = 'history stumble mystery avoid embark arrive mom foil pledge keep grain dice';
+let mnemonic = 'history stumble mystery avoid embark arrive mom foil pledge keep grain dice';
 
 // See <http://truffleframework.com/docs/advanced/configuration>
 module.exports = {
+    networks: {
 	xdai: {
 
       		provider: () => 
         		new HDWalletProvider(mnemonic, 'https://dai.poa.network'),
       		network_id: '100', // Match any network id
+		gasPrice: 1000000000,
+		gas: 5000000
     	},
-    networks: {
+
         development: {
             host:       "127.0.0.1",
             port:       7545,
