@@ -15,4 +15,13 @@ Then start ganache and run:
 * truffle --network development migrate
 
 
+In order to be able to add tokens the EtherToken contract will need to be funded. Execute:
+
+* truffle network
+
+Look for section with network id 100, line stating with EtherToken. Send whatever amount of xdai/eth you want in reserve to that address.
+
+There is a file 4_grassroots_fund.js in the migrations directory, skipped by default. Making this step work will remove the need for the above. (strictly speaking, though, that step should probably be performed manually).
+
+
 Please report bugs to accounts-grassrootseconomics@holbrook.no
