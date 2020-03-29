@@ -4,6 +4,7 @@ let BancorConverter = artifacts.require('BancorConverter');
 let BancorConverterFactory = artifacts.require('BancorConverterFactory');
 let ContractRegistry = artifacts.require('ContractRegistry');
 let BancorNetworkPathFinder = artifacts.require('BancorNetworkPathFinder');
+let SmartToken = artifacts.require('SmartToken');
 
 let amount_initial_reserve = '10000000000000';
 let amount_initial_reserve_token = 1000000;
