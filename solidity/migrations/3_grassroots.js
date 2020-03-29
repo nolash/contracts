@@ -11,6 +11,8 @@ let BancorFormula = artifacts.require('BancorFormula');
 let ContractFeatures = artifacts.require('ContractFeatures');
 let Whitelist = artifacts.require('Whitelist');
 
+let web3 = require('web3');
+
 module.exports = async function(deployer, network, accounts) {
 	deployer.then(async () => {
 		// deploy all necessary contracts

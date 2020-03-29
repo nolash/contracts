@@ -9,10 +9,8 @@ let amount_initial_reserve = '10000000000000';
 let amount_initial_reserve_token = 1000000;
 let amount_initial_minted_token = 4000000;
 
-let funding = false;
-
 module.exports = async function(deployer, network, accounts) {
-	if (funding) {
+	if (network == 'development') {
 		deployer.then(async () => {
 
 			console.log(">>>> deploying with account " + accounts[0])
