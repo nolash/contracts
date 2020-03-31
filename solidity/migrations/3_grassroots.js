@@ -16,7 +16,7 @@ let w3 = require('web3');
 
 let amount_initial_reserve = '10000000000000000000000';
 let amount_initial_reserve_token = 1000000000000000000000;
-let reserve_multiplier = 4000000000000000000000;
+let reserve_multiplier = 4; //4000000000000000000000;
 let reserve_ratio = 1000000 / reserve_multiplier;
 let amount_initial_minted_token = amount_initial_reserve_token * reserve_multiplier;
 
